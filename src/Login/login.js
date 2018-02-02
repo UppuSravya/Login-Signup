@@ -1,27 +1,35 @@
 import React, { Component } from 'react';
-
+import { bindActionCreators } from 'redux';
+import {connect } from 'react-redux';
+import login from '../actions/action';
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userName: '',
             passWord: '',
-            showStatus: ''
         };
     }
 
     check(event) {
         event.preventDefault();
-        if ((localStorage.getItem('c') === this.state.userName) &&
-            (localStorage.getItem('d') === this.state.passWord)) {
-            console.log('hiieeeee, Success');
-                this.setState({showStatus: "sucessfull"})
-        } else {
-            console.log('wrong');
-            this.setState({showStatus: "not sucessfull"})
+        let usr = {
+            userName : this.state.userName,
+            passwd: this.state.passWord
         }
+
+        this.props.loginn(usr);
+        // if ((localStorage.getItem('c') === this.state.userName) &&
+        //     (localStorage.getItem('d') === this.state.passWord)) {
+        //     console.log('hiieeeee, Success');
+        //         this.setState({showStatus: "sucessfull"})
+        // } else {
+        //     console.log('wrong');
+        //     this.setState({showStatus: "not sucessfull"})
+        // }
     }
     render() {
+        let renderStatus =this.props.statusprop ?<h1>{this.props.statusprop}</h1>:null
         return (
             <div>
                 <form name="form" onSubmit={(event) => { this.check(event) }}>
@@ -37,13 +45,18 @@ class Login extends Component {
                         <button type="submit" className="btn btn-primary">Login</button>
                     </div>
                 </form>
-                {
-                    this.state.showStatus.length ?
-                        <h4>{this.state.showStatus}</h4> : null
-                }
+                {renderStatus}
             </div>
         )
     }
 }
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({loginn:login},dispatch)
+}
+function mapStateToProps(state) {
+    return {
+        statusprop:state.status
 
-export default Login;
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

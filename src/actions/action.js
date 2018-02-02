@@ -1,7 +1,7 @@
 
-export default function (name) {
+export default function login(user) {
     return {
-        type: 'GET_firstName',
-        payload: name
+        type: 'login',
+        payload: user
     };
 }

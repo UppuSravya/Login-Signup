@@ -1,9 +1,7 @@
-import GET_userName from '../actions/action'
-export default function(state = [], action) {
-    switch(action.type) {
-        case 'GET_firstName':
-            return [action.payload.name, ...state];
+import { combineReducers } from 'redux';
+import login from '../reducers/login';
+const rootReducer = combineReducers({
+    status: login
+})
 
-    }
-    return state;
-}
+export default rootReducer;
